@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">TicketReservationSystem</string>
+    <string name="login">Login</string>
+    <string name="email">Email Address</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="logout">Logout</string>
+    <string name="clickReg">Click to Register</string>
+    <string name="clickLogin">Click to Login</string>
+</resources>

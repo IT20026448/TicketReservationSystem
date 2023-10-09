@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "997384181064",
+    "project_id": "ticket-reservation-syste-8fe02",
+    "storage_bucket": "ticket-reservation-syste-8fe02.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:997384181064:android:57e2f49e52819a04d9cf7d",
+        "android_client_info": {
+          "package_name": "com.example.ticketreservationsystem"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUtGt_8FrP0Pq9rH8p41kHY0PAmZu-C_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
