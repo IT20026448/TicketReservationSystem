@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".CreateReservation">
+
+    <TextView
+        android:id="@+id/trainDetailsHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Make Reservation"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/trainIDTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Train ID: "
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/trainDetailsHeader"
+        app:layout_constraintTop_toBottomOf="@+id/trainDetailsHeader" />
+
+    <TextView
+        android:id="@+id/deptTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Departure Time: "
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/trainIDTextView"
+        app:layout_constraintTop_toBottomOf="@+id/trainIDTextView" />
+
+    <TextView
+        android:id="@+id/arrivalTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Arrival Time: "
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/deptTimeTextView"
+        app:layout_constraintTop_toBottomOf="@+id/deptTimeTextView" />
+
+    <TextView
+        android:id="@+id/startLocTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Start Location: "
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/arrivalTimeTextView"
+        app:layout_constraintTop_toBottomOf="@+id/arrivalTimeTextView" />
+
+    <TextView
+        android:id="@+id/destinationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Destination: "
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/startLocTextView"
+        app:layout_constraintTop_toBottomOf="@+id/startLocTextView" />
+
+<!--    https://www.geeksforgeeks.org/datepicker-in-android-->
+
+    <TextView
+        android:id="@+id/idTVSelectedDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/idBtnPickDate"
+        android:layout_centerInParent="true"
+        android:layout_margin="20dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Date"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/totalPriceTextView"
+        tools:layout_editor_absoluteX="36dp" />
+
+    <Button
+        android:id="@+id/idBtnPickDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="20dp"
+        android:text="Pick Date"
+        android:textAllCaps="false"
+        app:cornerRadius="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idTVSelectedDate" />
+
+    <TextView
+        android:id="@+id/priceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Price: "
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/destinationTextView"
+        app:layout_constraintTop_toBottomOf="@+id/destinationTextView" />
+
+    <EditText
+        android:id="@+id/quantityEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="Quantity"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/priceTextView"
+        app:layout_constraintTop_toBottomOf="@+id/priceTextView" />
+
+    <Button
+        android:id="@+id/increaseQuantityButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/quantityEditText"
+        app:layout_constraintTop_toTopOf="@+id/quantityEditText" />
+
+    <Button
+        android:id="@+id/decreaseQuantityButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/increaseQuantityButton"
+        app:layout_constraintTop_toTopOf="@+id/quantityEditText" />
+
+    <TextView
+        android:id="@+id/totalPriceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Total Price: "
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/quantityEditText"
+        app:layout_constraintTop_toBottomOf="@+id/quantityEditText" />
+
+    <Button
+        android:id="@+id/confirmRes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_marginRight="2dp"
+        android:text="Reserve"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/cancelRes"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idBtnPickDate" />
+
+    <Button
+        android:id="@+id/cancelRes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Cancel Reservation"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/confirmRes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/confirmRes"
+        app:layout_constraintTop_toTopOf="@+id/confirmRes"
+        app:layout_constraintVertical_bias="1.0" />
+</androidx.constraintlayout.widget.ConstraintLayout>

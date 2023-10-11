@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class Login extends AppCompatActivity {
     private static final String TAG = "Login";
     TextView navRegBtn;
-    TextInputEditText editTextEmail, editTextPassword;
+    TextInputEditText editTextNIC, editTextPassword;
     Button buttonLogin;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
@@ -37,6 +37,7 @@ public class Login extends AppCompatActivity {
         if(currentUser != null){
             Intent intent = new Intent(getApplicationContext(), Home.class);
             startActivity(intent);
+            finish();
         }
     }
 
@@ -45,7 +46,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         navRegBtn = findViewById(R.id.nav_register);
-        editTextEmail = findViewById(R.id.email);
+        editTextNIC = findViewById(R.id.nic);
         editTextPassword = findViewById(R.id.password);
         buttonLogin = findViewById(R.id.btn_login);
         mAuth = FirebaseAuth.getInstance();
@@ -55,12 +56,12 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE);
-                String email, password;
-                email = String.valueOf(editTextEmail.getText());
+                String nic, password;
+                nic = String.valueOf(editTextNIC.getText());
                 password = String.valueOf(editTextPassword.getText());
                 progressBar.setVisibility(View.GONE);
 
-                if (TextUtils.isEmpty(email)) {
+                if (TextUtils.isEmpty(nic)) {
                     Toast.makeText(Login.this, "Enter email", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -70,7 +71,7 @@ public class Login extends AppCompatActivity {
                     return;
                 }
 
-                mAuth.signInWithEmailAndPassword(email, password)
+                mAuth.signInWithEmailAndPassword(nic + "@travelreserve.com", password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -80,11 +81,12 @@ public class Login extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), Home.class);
                                     startActivity(intent);
+                                    finish();
                                 } else {
                                     Toast.makeText(Login.this, "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
                                     String errorMessage = task.getException().getMessage();
-                                    Log.e(TAG, "Registration failed: " + errorMessage);
+                                    Log.e(TAG, "Login failed: " + errorMessage);
                                 }
                             }
                         });
@@ -96,6 +98,7 @@ public class Login extends AppCompatActivity {
                 // Create an Intent to start the Registration activity
                 Intent intent = new Intent(getApplicationContext(), Register.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

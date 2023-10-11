@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ticketreservationsystem.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -21,10 +22,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity {
     private static final String TAG = "Registration";
-    TextInputEditText editTextEmail, editTextPassword;
+    TextInputEditText editTextNIC, editTextPassword, editTextName, editTextPhone;
     Button buttonReg;
     TextView navLogin;
     FirebaseAuth mAuth;
@@ -35,16 +38,19 @@ public class Register extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser == null){
+        if(currentUser != null){
             Intent intent = new Intent(getApplicationContext(), Register.class);
             startActivity(intent);
+            finish();
         }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        editTextEmail = findViewById(R.id.email);
+        editTextNIC = findViewById(R.id.NIC);
+        editTextPhone = findViewById(R.id.phone);
+        editTextName = findViewById(R.id.name);
         editTextPassword = findViewById(R.id.password);
         buttonReg = findViewById(R.id.btn_register);
         mAuth = FirebaseAuth.getInstance();
@@ -55,11 +61,13 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 progressBar.setVisibility(View.VISIBLE);
-                String email, password;
-                email = String.valueOf(editTextEmail.getText());
+                String nic, password, name, phone;
+                nic = String.valueOf(editTextNIC.getText());
                 password = String.valueOf(editTextPassword.getText());
+                name = String.valueOf(editTextName.getText());
+                phone = String.valueOf(editTextPhone.getText());
 
-                if(TextUtils.isEmpty(email)){
+                if(TextUtils.isEmpty(nic)){
                     Toast.makeText(Register.this, "Enter email", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -69,17 +77,33 @@ public class Register extends AppCompatActivity {
                     return;
                 }
 
-                mAuth.createUserWithEmailAndPassword(email, password)
+                mAuth.createUserWithEmailAndPassword(nic + "@travelreserve.com", password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
+                                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+                                    String uid = currentUser.getUid();
+                                    String email = currentUser.getEmail();
+
+                                    // Get a reference to the Firebase Database
+                                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                    DatabaseReference userRef = database.getReference("users").child(uid);
+
+                                    // Create a User object with NIC, name, and phone
+                                    User user = new User(nic, name, phone, email);
+
+                                    // Set the user object in the Firebase Database
+                                    userRef.setValue(user);
+
                                     // If sign in successful, display a message to the user.
                                     Toast.makeText(Register.this, "Account created.",
                                             Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), Login.class);
                                     startActivity(intent);
+                                    finish();
                                 }
                                 // Registration failed
                                 Exception e = task.getException();
@@ -107,6 +131,7 @@ public class Register extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
