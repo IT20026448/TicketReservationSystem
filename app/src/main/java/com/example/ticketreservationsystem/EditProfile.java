@@ -12,6 +12,7 @@ import com.example.ticketreservationsystem.models.Ticket;
 import com.example.ticketreservationsystem.models.User;
 import com.example.ticketreservationsystem.service.TicketApi;
 import com.example.ticketreservationsystem.service.UserApi;
+import com.example.ticketreservationsystem.service.UserService;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,16 +33,19 @@ public class EditProfile extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     String nic = "";
+    String email = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
+        mAuth = FirebaseAuth.getInstance();
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if(currentUser != null){
-            String email = currentUser.getEmail();
+            email = currentUser.getEmail();
 
             // Split the email address using the "@" symbol
             String[] parts = email.split("@");
@@ -61,15 +65,18 @@ public class EditProfile extends AppCompatActivity {
         editTextPassword = findViewById(R.id.password);
         userId = findViewById(R.id.Id);
 
-        retrieveUserDetailsById(nic);
+        retrieveUserDetailsById(email);
     }
 
     public void retrieveUserDetailsById(String id){
         // Create a Retrofit instance using the RetrofitClient
         UserApi userApi = RetrofitClient.getRetrofitInstance().create(UserApi.class);
 
+        // Create a UserService instance
+        UserService userService = new UserService(userApi);
+
         // Call the getTicketById method to retrieve the user details
-        Call<User> call = userApi.getUserById(id);
+        Call<User> call = userService.getUserById(id);
 
         call.enqueue(new Callback<User>() {
             @Override
@@ -99,7 +106,7 @@ public class EditProfile extends AppCompatActivity {
     private void displayUserDetails(User user) {
         // Display the ticket details in TextView elements
         if (user != null) {
-            editTextUserName.setText(user.getUserName());
+            editTextUserName.setText(user.getUsername());
             editTextNIC.setText(user.getNic());
             editTextEmail.setText(user.getEmail());
             editTextPhone.setText(user.getPhone());
@@ -108,7 +115,7 @@ public class EditProfile extends AppCompatActivity {
             userId.setText(user.getId());
 
             Log.d("EditProfile", "User ID: " + user.getId());
-            Log.d("EditProfile", "Username: " + user.getUserName());
+            Log.d("EditProfile", "Username: " + user.getUsername());
             Log.d("EditProfile", "NIC: " + user.getNic());
             Log.d("EditProfile", "Email: " + user.getEmail());
             Log.d("EditProfile", "Phone: " + user.getPhone());

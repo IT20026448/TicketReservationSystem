@@ -3,6 +3,8 @@ package com.example.ticketreservationsystem.service;
 import com.example.ticketreservationsystem.RetrofitClient;
 import com.example.ticketreservationsystem.models.User;
 
+import java.util.List;
+
 import retrofit2.Call;
 
 public class UserService {
@@ -16,7 +18,13 @@ public class UserService {
     public Call<User> createUser(User user) {
         return userApi.createUser(user);
     }
-    public Call<User> getUserById(String id){
+
+    // Method to get a user by ID
+    public Call<User> getUserById(String id) {
         return userApi.getUserById(id);
+    }
+
+    public Call<List<User>> getUsers(){
+        return userApi.getUsers();
     }
 }

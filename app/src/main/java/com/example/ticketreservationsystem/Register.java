@@ -28,6 +28,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,19 +58,20 @@ public class Register extends AppCompatActivity {
     ProgressBar progressBar;
 
     String randomNo = generateRandomNumber();
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
     // https://firebase.google.com/docs/auth/android/password-auth#create_a_password-based_account
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            // If the user has not signed in correctly navigate to the Sign up page.
-            Intent intent = new Intent(getApplicationContext(), Register.class);
-            startActivity(intent);
-            finish();
-        }
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        if(currentUser != null){
+//            // If the user has not signed in correctly navigate to the Sign up page.
+//            Intent intent = new Intent(getApplicationContext(), Register.class);
+//            startActivity(intent);
+//            finish();
+//        }
 
         // for ID generate a 24 digit hex string value
         travelerID = findViewById(R.id.Id);
@@ -102,8 +106,8 @@ public class Register extends AppCompatActivity {
          public void onClick(View view) {
              progressBar.setVisibility(View.VISIBLE);
              Log.d(TAG, "Register button clicked");
-             String id, username, NIC, emailAdd, phone, address, status, password;
-             int type;
+             String id, username, NIC, emailAdd, address, password, type, phone, status;
+             Date createdAt, updatedAt;
              // when the register button is clicked take the user input data and save in variables
              id = randomNo;
              username = String.valueOf(editTextUserName.getText());
@@ -114,7 +118,9 @@ public class Register extends AppCompatActivity {
              status = "active";
              password = String.valueOf(editTextPassword.getText());
              phone = String.valueOf(editTextPhone.getText());
-             type = 1;
+             type = "traveler";
+             createdAt = new Date();
+             updatedAt = new Date();
 
              // show a message if the user clicks on the register button without entering the NIC
              if (TextUtils.isEmpty(NIC)) {
@@ -127,107 +133,152 @@ public class Register extends AppCompatActivity {
                  return;
              }
 
-             // take the user NIC and password and create the account
-             // using password authentication in firebase which requires an email and has no option
-             // to create accounts with NIC. So, we take user input as NIC put send to the database
-             // in the email format
-             mAuth.createUserWithEmailAndPassword(NIC + "@travelreserve.com", password)
-                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                         @Override
-                         public void onComplete(@NonNull Task<AuthResult> task) {
-                             progressBar.setVisibility(View.GONE);
-                             // if the account is created successfully
-                             if (task.isSuccessful()) {
+             // call register API and register details
+             // Create a User object id, username, NIC, email, phone, address, status, password, name
+             User user = new User(id, NIC, emailAdd, username, password, type, createdAt.toString(), updatedAt.toString(), status, phone, address);
 
-//                                    // create a reference of the current user
-//                                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-//
-//                                    // variable to store current user's ID
-//                                    String uid = currentUser.getUid();
-//                                    // variable to store current user's email
-//                                    String email = currentUser.getEmail();
+             // Create a Retrofit instance using the RetrofitClient
+             UserApi userApi = RetrofitClient.getRetrofitInstance().create(UserApi.class);
 
-//                                    // Get a reference to the Firebase Database, user's collection.
-//                                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-//                                    DatabaseReference userRef = database.getReference("users").child(uid);
+             // Create a UserService instance
+             UserService userService = new UserService(userApi);
 
+             // Call the createUser method to make the POST request
+             Call<User> call = userService.createUser(user);
 
-                                 // Create a User object id, username, NIC, email, phone, address, status, password, name
-                                 User user = new User(id, username, NIC, emailAdd, phone, address, status, type);
-
-    //                                    // Set the user object in the Firebase Database
-    //                                    userRef.setValue(user);
-
-                                 // Create a Retrofit instance using the RetrofitClient
-                                 UserApi userApi = RetrofitClient.getRetrofitInstance().create(UserApi.class);
-
-                                 // Create a UserService instance
-                                 UserService userService = new UserService(userApi);
-
-                                 // Call the createUser method to make the POST request
-                                 Call<User> call = userService.createUser(user);
-
-                                 call.enqueue(new Callback<User>() {
-                                     @Override
-                                     public void onResponse(Call<User> call, Response<User> response) {
-                                         if (response.isSuccessful()) {
-                                             // User created successfully
-                                             User createdUser = response.body();
-                                             Log.d("Register", "User ID: " + createdUser.getId());
-                                             Log.d("Register", "NIC: " + createdUser.getNic());
-                                             FirebaseAuth.getInstance().signOut();
-                                             Intent intent = new Intent(getApplicationContext(), Login.class);
-                                             startActivity(intent);
-                                             finish();
-                                             // Handle the created user as needed
-                                         } else {
-                                             // Handle the case where the user creation request was not successful
-                                             // You can access the error response with response.errorBody()
-                                             try {
-                                                 String errorResponse = response.errorBody().string();
-                                                 Log.e("Register", "Error Response: " + errorResponse);
-                                             } catch (IOException e) {
-                                                 e.printStackTrace();
-                                             }
-                                         }
-                                     }
-
-                                     @Override
-                                     public void onFailure(Call<User> call, Throwable t) {
-                                         // Handle the case where there was a network error or the API request failed
-                                         Toast.makeText(Register.this, "Failed to register user", Toast.LENGTH_SHORT).show();
-                                         Log.e("Register", "Failed to retrieve user details", t);
-                                     }
-                                 });
-
-                                 // If sign in successful, display a message to the user.
-                                 Toast.makeText(Register.this, "Account created.",
-                                         Toast.LENGTH_SHORT).show();
-                                 Intent intent = new Intent(getApplicationContext(), Login.class);
-                                 startActivity(intent);
-                                 finish();
-                             } else {
-                                 Exception e = task.getException();
-                                 if (e != null) {
-                                     e.printStackTrace();
-                                     if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                                         // Handle invalid credentials exception
-                                         Log.e(TAG, "Registration failed: " + e.getMessage());
-                                     } else if (e instanceof FirebaseAuthUserCollisionException) {
-                                         // Handle user collision (email already in use) exception
-                                         Log.e(TAG, "Registration failed: " + e.getMessage());
-                                     } else {
-                                         // Handle other exceptions
-                                         // If sign-up fails, display a message to the user.
-                                         Toast.makeText(Register.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                                         Log.e(TAG, "Registration failed: " + e.getMessage());
-                                     }
-                                 } else {
-                                     // The exception is null, handle it accordingly
-                                 }
-                             }
+             call.enqueue(new Callback<User>() {
+                 @Override
+                 public void onResponse(Call<User> call, Response<User> response) {
+                     if (response.isSuccessful()) {
+                         // User created successfully
+                         User createdUser = response.body();
+                         Log.d("Register", "User ID: " + createdUser.getId());
+                         Log.d("Register", "NIC: " + createdUser.getNic());
+                         Intent intent = new Intent(getApplicationContext(), Login.class);
+                         startActivity(intent);
+                         finish();
+                         // Handle the created user as needed
+                     } else {
+                         // Handle the case where the user creation request was not successful
+                         // You can access the error response with response.errorBody()
+                         try {
+                             String errorResponse = response.errorBody().string();
+                             Log.e("Register", "Error Response: " + errorResponse);
+                         } catch (IOException e) {
+                             e.printStackTrace();
                          }
-                     });
+                     }
+                 }
+
+                 @Override
+                 public void onFailure(Call<User> call, Throwable t) {
+                     // Handle the case where there was a network error or the API request failed
+                     Toast.makeText(Register.this, "Failed to register user", Toast.LENGTH_SHORT).show();
+                     Log.e("Register", "Failed to retrieve user details", t);
+                 }
+             });
+
+//             // take the user NIC and password and create the account
+//             // using password authentication in firebase which requires an email and has no option
+//             // to create accounts with NIC. So, we take user input as NIC put send to the database
+//             // in the email format
+//             mAuth.createUserWithEmailAndPassword(NIC + "@travelreserve.com", password)
+//                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                         @Override
+//                         public void onComplete(@NonNull Task<AuthResult> task) {
+//                             progressBar.setVisibility(View.GONE);
+//                             // if the account is created successfully
+//                             if (task.isSuccessful()) {
+//
+////                                    // create a reference of the current user
+////                                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+////
+////                                    // variable to store current user's ID
+////                                    String uid = currentUser.getUid();
+////                                    // variable to store current user's email
+////                                    String email = currentUser.getEmail();
+//
+////                                    // Get a reference to the Firebase Database, user's collection.
+////                                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+////                                    DatabaseReference userRef = database.getReference("users").child(uid);
+//
+//
+//                                 // Create a User object id, username, NIC, email, phone, address, status, password, name
+//                                 User user = new User(id, username, NIC, emailAdd, phone, address, status, type);
+//
+//    //                                    // Set the user object in the Firebase Database
+//    //                                    userRef.setValue(user);
+//
+//                                 // Create a Retrofit instance using the RetrofitClient
+//                                 UserApi userApi = RetrofitClient.getRetrofitInstance().create(UserApi.class);
+//
+//                                 // Create a UserService instance
+//                                 UserService userService = new UserService(userApi);
+//
+//                                 // Call the createUser method to make the POST request
+//                                 Call<User> call = userService.createUser(user);
+//
+//                                 call.enqueue(new Callback<User>() {
+//                                     @Override
+//                                     public void onResponse(Call<User> call, Response<User> response) {
+//                                         if (response.isSuccessful()) {
+//                                             // User created successfully
+//                                             User createdUser = response.body();
+//                                             Log.d("Register", "User ID: " + createdUser.getId());
+//                                             Log.d("Register", "NIC: " + createdUser.getNic());
+//                                             FirebaseAuth.getInstance().signOut();
+//                                             Intent intent = new Intent(getApplicationContext(), Login.class);
+//                                             startActivity(intent);
+//                                             finish();
+//                                             // Handle the created user as needed
+//                                         } else {
+//                                             // Handle the case where the user creation request was not successful
+//                                             // You can access the error response with response.errorBody()
+//                                             try {
+//                                                 String errorResponse = response.errorBody().string();
+//                                                 Log.e("Register", "Error Response: " + errorResponse);
+//                                             } catch (IOException e) {
+//                                                 e.printStackTrace();
+//                                             }
+//                                         }
+//                                     }
+//
+//                                     @Override
+//                                     public void onFailure(Call<User> call, Throwable t) {
+//                                         // Handle the case where there was a network error or the API request failed
+//                                         Toast.makeText(Register.this, "Failed to register user", Toast.LENGTH_SHORT).show();
+//                                         Log.e("Register", "Failed to retrieve user details", t);
+//                                     }
+//                                 });
+//
+//                                 // If sign in successful, display a message to the user.
+//                                 Toast.makeText(Register.this, "Account created.",
+//                                         Toast.LENGTH_SHORT).show();
+//                                 Intent intent = new Intent(getApplicationContext(), Login.class);
+//                                 startActivity(intent);
+//                                 finish();
+//                             } else {
+//                                 Exception e = task.getException();
+//                                 if (e != null) {
+//                                     e.printStackTrace();
+//                                     if (e instanceof FirebaseAuthInvalidCredentialsException) {
+//                                         // Handle invalid credentials exception
+//                                         Log.e(TAG, "Registration failed: " + e.getMessage());
+//                                     } else if (e instanceof FirebaseAuthUserCollisionException) {
+//                                         // Handle user collision (email already in use) exception
+//                                         Log.e(TAG, "Registration failed: " + e.getMessage());
+//                                     } else {
+//                                         // Handle other exceptions
+//                                         // If sign-up fails, display a message to the user.
+//                                         Toast.makeText(Register.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+//                                         Log.e(TAG, "Registration failed: " + e.getMessage());
+//                                     }
+//                                 } else {
+//                                     // The exception is null, handle it accordingly
+//                                 }
+//                             }
+//                         }
+//                     });
          }
      });
 

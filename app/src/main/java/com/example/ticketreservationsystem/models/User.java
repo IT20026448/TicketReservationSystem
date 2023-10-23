@@ -4,28 +4,33 @@ package com.example.ticketreservationsystem.models;
 public class User {
     // User class private attributes
     private String id;
-    private String userName;
     private String nic;
     private String email;
+    private String username;
+    private String password;
+    private String type;
+    private String createdAt;
+    private String updatedAt;
+    private String status;
     private String phone;
     private String address;
-    private String status;
-    private String password;
-    private int type;
 
     public User() {
         // Default constructor
     }
 
-    public User(String id, String userName, String nic, String email, String phone, String address, String status, int type) {
+    public User(String id, String nic, String email, String username, String password, String type, String createdAt, String updatedAt, String status, String phone, String address) {
         this.id = id;
-        this.userName = userName;
         this.nic = nic;
         this.email = email;
+        this.username = username;
+        this.password = password;
+        this.type = type;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.status = status;
         this.phone = phone;
         this.address = address;
-        this.status = status;
-        this.type = type;
     }
 
     public String getId() {
@@ -34,14 +39,6 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getNic() {
@@ -60,6 +57,54 @@ public class User {
         this.email = email;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -74,30 +119,6 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 }
 
