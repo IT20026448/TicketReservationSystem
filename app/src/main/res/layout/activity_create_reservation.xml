@@ -37,6 +37,7 @@
         android:layout_marginTop="10dp"
         android:text="Departure Time: "
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/trainIDTextView"
         app:layout_constraintTop_toBottomOf="@+id/trainIDTextView" />
 
@@ -47,6 +48,7 @@
         android:layout_marginTop="10dp"
         android:text="Arrival Time: "
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/deptTimeTextView"
         app:layout_constraintTop_toBottomOf="@+id/deptTimeTextView" />
 
@@ -57,6 +59,7 @@
         android:layout_marginTop="10dp"
         android:text="Start Location: "
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/arrivalTimeTextView"
         app:layout_constraintTop_toBottomOf="@+id/arrivalTimeTextView" />
 
@@ -67,6 +70,7 @@
         android:layout_marginTop="10dp"
         android:text="Destination: "
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/startLocTextView"
         app:layout_constraintTop_toBottomOf="@+id/startLocTextView" />
 
@@ -74,21 +78,21 @@
 
     <TextView
         android:id="@+id/idTVSelectedDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="144dp"
+        android:layout_height="46dp"
         android:layout_above="@id/idBtnPickDate"
         android:layout_centerInParent="true"
         android:layout_margin="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Date"
+        android:text="01/01/2000"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/totalPriceTextView"
-        tools:layout_editor_absoluteX="36dp" />
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/totalPriceTextView" />
 
     <Button
         android:id="@+id/idBtnPickDate"
@@ -96,12 +100,14 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_margin="20dp"
+        android:layout_marginTop="72dp"
         android:text="Pick Date"
         android:textAllCaps="false"
         app:cornerRadius="2dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.375"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idTVSelectedDate" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/priceTextView"
@@ -110,6 +116,7 @@
         android:layout_marginTop="10dp"
         android:text="Price: "
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/destinationTextView"
         app:layout_constraintTop_toBottomOf="@+id/destinationTextView" />
 
@@ -150,6 +157,7 @@
         android:layout_marginTop="24dp"
         android:text="Total Price: "
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/quantityEditText"
         app:layout_constraintTop_toBottomOf="@+id/quantityEditText" />
 
@@ -176,4 +184,16 @@
         app:layout_constraintStart_toEndOf="@+id/confirmRes"
         app:layout_constraintTop_toTopOf="@+id/confirmRes"
         app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="28dp"
+        android:text="Reservation Date :"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalPriceTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

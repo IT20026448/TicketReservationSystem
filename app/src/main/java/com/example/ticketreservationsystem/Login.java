@@ -21,7 +21,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+// handle user login
 public class Login extends AppCompatActivity {
+    // Create variable for logging
     private static final String TAG = "Login";
     TextView navRegBtn;
     TextInputEditText editTextNIC, editTextPassword;
@@ -99,6 +101,7 @@ public class Login extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Register.class);
                 startActivity(intent);
                 finish();
+                Log.d("Login", "Navigating to Registration page..");
             }
         });
     }

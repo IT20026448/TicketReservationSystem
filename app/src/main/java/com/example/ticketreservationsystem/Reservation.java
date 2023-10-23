@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+// handle reservations made by user
 public class Reservation extends AppCompatActivity {
     private TextView reservationInfoTextView;
     private EditText ticketNumberEditText;
@@ -82,7 +83,7 @@ public class Reservation extends AppCompatActivity {
 //                    // Clear the ticket number field
 //                    ticketNumberEditText.setText("");
 //
-//                    Toast.makeText(Reservation.this, "Booking canceled.", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(Reservation.this, "Reservation canceled.", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -95,7 +96,7 @@ public class Reservation extends AppCompatActivity {
 //                        // Update the ticket number in Firebase
 //                        databaseReference.child(userId).child("ticketNumber").setValue(newTicketNumber);
 //
-//                        Toast.makeText(Reservation.this, "Booking modified.", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(Reservation.this, "Reservation modified.", Toast.LENGTH_SHORT).show();
 //                    } else {
 //                        Toast.makeText(Reservation.this, "Please enter a valid ticket number.", Toast.LENGTH_SHORT).show();
 //                    }

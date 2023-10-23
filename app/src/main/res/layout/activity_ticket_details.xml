@@ -1,0 +1,69 @@
+<!-- res/layout/activity_ticket_details.xml -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/ticketIdTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ticket ID: " />
+
+    <TextView
+        android:id="@+id/trainNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Train Name: " />
+
+    <TextView
+        android:id="@+id/timeTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Time: " />
+
+    <TextView
+        android:id="@+id/startLocationTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Location: " />
+
+    <TextView
+        android:id="@+id/departureLocationTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Departure Location: " />
+
+    <TextView
+        android:id="@+id/createdTimeTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Created Time: " />
+
+    <TextView
+        android:id="@+id/lastUpdatedTimeTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Last Updated Time: " />
+
+    <TextView
+        android:id="@+id/statusTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Status: " />
+
+    <TextView
+        android:id="@+id/numberOfReservationsTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Number of Reservations: " />
+
+    <TextView
+        android:id="@+id/assigneTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Assignee: " />
+</LinearLayout>

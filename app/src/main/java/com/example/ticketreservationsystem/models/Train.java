@@ -1,7 +1,7 @@
 package com.example.ticketreservationsystem.models;
 
 public class Train {
-    private String trainID, startLoc, destination, deptTime, arrivalTime;
+    private String trainID, trainName, startLoc, destination, deptTime, arrivalTime;
     private Long price;
 
     public String getTrainID() {

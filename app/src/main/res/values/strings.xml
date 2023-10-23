@@ -1,8 +1,12 @@
 <resources>
+    <!--    Define labels for buttons, text fields and headers here so they can easily be reused-->
     <string name="app_name">Ticket Reservation System</string>
     <string name="login">Login</string>
-    <string name="NIC">NIC</string>
-    <string name="password">Password</string>
+    <string name="Id">Traveler ID:</string>
+    <string name="userName">Enter Username:</string>
+    <string name="emailAddress">Email Address:</string>
+    <string name="NIC">Enter NIC:</string>
+    <string name="password">Enter Password:</string>
     <string name="register">Register</string>
     <string name="logout">Logout</string>
     <string name="clickReg">Click to Register</string>
@@ -10,4 +14,8 @@
     <string name="deactivateAccount">Deactivate Account</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="address">Enter Address:</string>
+    <string name="name">Enter Name:</string>
+    <string name="contact">Enter Contact Number:</string>
+    <string name="editProfile">Edit Profile</string>
 </resources>

@@ -3,6 +3,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
@@ -35,9 +36,9 @@ public class Home extends AppCompatActivity {
     Toolbar toolbar;
 
     private static final String TAG = "Login";
-    TextView textView;
+    TextView textView, usernameText;
     TextInputEditText editTextEmail, editTextPassword;
-    Button buttonLogout, deactivateAccountBtn;
+    Button buttonLogout;
     FirebaseAuth auth;
     FirebaseUser user;
     ProgressBar progressBar;
@@ -46,6 +47,10 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        auth = FirebaseAuth.getInstance(); // Initialize FirebaseAuth
+
+        buttonLogout = findViewById(R.id.logout);
 
 //        toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -64,8 +69,35 @@ public class Home extends AppCompatActivity {
         // Replace "your-firebase-project-id" with your actual Firebase project ID
         String databaseUrl = "https://ticket-reservation-syste-8fe02-default-rtdb.firebaseio.com";
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(databaseUrl).child("trains");
+        // Your LinearLayout container
 
-        LinearLayout cardContainer = findViewById(R.id.cardContainer); // Your LinearLayout container
+        usernameText = findViewById(R.id.usernameTextView);
+
+        user = auth.getCurrentUser();
+
+        if(user != null){
+            String email = user.getEmail();
+
+            usernameText.setText(email);
+        }
+        usernameText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), EditProfile.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        buttonLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -99,8 +131,6 @@ public class Home extends AppCompatActivity {
                     startLocTextView.setText("Start Location: " + startLoc);
                     destinationTextView.setText("Destination: " + destination);
 
-                    // Add the CardView to your layout
-                    cardContainer.addView(cardView);
                 }
             }
 
@@ -113,8 +143,7 @@ public class Home extends AppCompatActivity {
 }
 
 
-//        auth = FirebaseAuth.getInstance();
-////        buttonLogout = findViewById(R.id.logout);
+//
 ////        deactivateAccountBtn = findViewById(R.id.deactivate_account);
 //        textView = findViewById(R.id.user_details);
 //        user = auth.getCurrentUser();
@@ -127,15 +156,6 @@ public class Home extends AppCompatActivity {
 //            //textView.setText(user.getEmail());
 //        }
 
-//        buttonLogout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                FirebaseAuth.getInstance().signOut();
-//                Intent intent = new Intent(getApplicationContext(), Login.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
 
 //        deactivateAccountBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override

@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".Register">
+    tools:context=".EditProfile">
 
     <TextView
-        android:text="@string/register"
+        android:text="@string/editProfile"
         android:textSize="25sp"
         android:textStyle="bold"
         android:gravity="center"
@@ -19,18 +19,11 @@
         />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Please fill the following fields."
-        android:textStyle="bold"
-        android:layout_marginBottom="10dp"
-        />
-
-    <TextView
         android:textStyle="bold"
         android:layout_width="229dp"
         android:layout_height="wrap_content"
-        android:text="@string/Id" />
+        android:text="@string/Id"
+        />
 
     <TextView
         android:textStyle="bold"
@@ -47,6 +40,7 @@
         android:layout_height="wrap_content"
         android:text="@string/userName" />
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,7 +51,7 @@
             android:id="@+id/user_name"
             android:layout_width="232dp"
             android:layout_height="wrap_content"
-            android:hint="jack123"
+            android:text="jack123"
             android:textSize="12sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,7 +60,6 @@
         android:layout_width="229dp"
         android:layout_height="wrap_content"
         android:text="@string/NIC" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -77,7 +70,7 @@
             android:id="@+id/NIC"
             android:layout_width="232dp"
             android:layout_height="wrap_content"
-            android:hint="55543342V"
+            android:text="55543342V"
             android:textSize="12sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -96,7 +89,7 @@
             android:id="@+id/email_address"
             android:layout_width="232dp"
             android:layout_height="wrap_content"
-            android:hint="jack@gmail.com"
+            android:text="jack@gmail.com"
             android:textSize="12sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -115,7 +108,7 @@
             android:id="@+id/phone"
             android:layout_width="229dp"
             android:layout_height="wrap_content"
-            android:hint="077223223"
+            android:text="077223223"
             android:textSize="12sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -136,9 +129,8 @@
             android:id="@+id/address"
             android:layout_width="229dp"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:hint="54, Sea Road Avenue, USA"
-            />
+            android:text="54, Sea Road Avenue, USA"
+            android:textSize="12sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -158,33 +150,34 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:textSize="12sp"
-            android:hint="********"
+            android:text="********"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <ProgressBar
-        android:layout_width="match_parent"
+    <TextView
+        android:textStyle="bold"
+        android:layout_width="229dp"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:visibility="gone"
+        android:text="@string/name"
         />
 
     <Button
-        android:id="@+id/btn_register"
-        android:layout_width="118dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/register"
-        app:cornerRadius="3dp" />
+    android:id="@+id/save_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Save" />
+
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel" />
 
     <TextView
-        android:id="@+id/nav_login"
-        android:layout_width="152dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:text="@string/clickLogin"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:id="@+id/deactivateAccLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deactivate Account" />
+
+
 </LinearLayout>
