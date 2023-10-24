@@ -9,10 +9,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +37,7 @@ public class Home extends AppCompatActivity {
     DrawerLayout drawerLayout;
     Toolbar toolbar;
 
-    private static final String TAG = "Login";
+    private static final String TAG = "Home";
     TextView textView, usernameText;
     TextInputEditText editTextEmail, editTextPassword;
     Button buttonLogout;
@@ -71,28 +73,62 @@ public class Home extends AppCompatActivity {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl(databaseUrl).child("trains");
         // Your LinearLayout container
 
-        usernameText = findViewById(R.id.usernameTextView);
-
-        user = auth.getCurrentUser();
-
-        if(user != null){
-            String email = user.getEmail();
-
-            usernameText.setText(email);
+        Intent intent = getIntent();
+        if (intent != null) {
+            String username = intent.getStringExtra("username");
+            if (username != null) {
+                // You have the username, and you can set it to the appropriate TextView.
+                usernameText = findViewById(R.id.usernameTextView);
+                usernameText.setText(username);
+            }
         }
+
+
+
+//        user = auth.getCurrentUser();
+//
+//        if(user != null){
+//            String email = user.getEmail();
+//
+//            usernameText.setText(email);
+//        }
         usernameText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), EditProfile.class);
-                startActivity(intent);
-                finish();
+                PopupMenu popupMenu = new PopupMenu(Home.this, usernameText);
+                Menu menu = popupMenu.getMenu();
+                getMenuInflater().inflate(R.menu.user_dropdown, menu);
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int itemId = item.getItemId();
+                        if (itemId == R.id.action_edit_profile) {
+                            // Handle "Edit Profile" option
+                            Intent editProfileIntent = new Intent(Home.this, EditProfile.class);
+                            startActivity(editProfileIntent);
+                            return true;
+                        } else if (itemId == R.id.action_logout) {
+                            // Handle "Logout" option
+                            FirebaseAuth.getInstance().signOut();
+                            Intent logoutIntent = new Intent(Home.this, Login.class);
+                            startActivity(logoutIntent);
+                            finish();
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                });
+
+                popupMenu.show();
             }
         });
 
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
+//                FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent);
                 finish();

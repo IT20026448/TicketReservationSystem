@@ -102,6 +102,7 @@ public class Login extends AppCompatActivity {
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE);
                 String nic, password;
+                String displayName = "";
                 nic = String.valueOf(editTextNIC.getText());
                 password = String.valueOf(editTextPassword.getText());
 
@@ -128,6 +129,7 @@ public class Login extends AppCompatActivity {
                             // Password is correct
                             found = true;
                             Log.d("Login", "User match ID: " + user.getEmail());
+                            displayName = user.getUsername();
                             break;
                         }
                     }
@@ -137,7 +139,9 @@ public class Login extends AppCompatActivity {
 
                 if (found) {
                     Toast.makeText(Login.this, "Login successful.", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), Home.class);
+                    Intent intent = new Intent(Login.this, Home.class);
+                    // Pass the username as an extra to the Home activity
+                    intent.putExtra("username", displayName);
                     startActivity(intent);
                     finish();
                 } else {
